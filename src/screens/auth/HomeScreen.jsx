@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, Image } from "react-native";
+import { View, Text, Image, StatusBar, ScrollView } from "react-native";
 import { scale, ScaledSheet } from "react-native-size-matters";
 import Action from "../../components/Action";
 import { AntDesign } from "@expo/vector-icons";
@@ -8,7 +8,8 @@ import { useNavigation } from "@react-navigation/native";
 const HomeScreen = () => {
   const navigation = useNavigation();
   return (
-    <View
+    <ScrollView
+      showsVerticalScrollIndicator={false}
       style={{
         flex: 1,
         flexDirection: "column",
@@ -41,7 +42,7 @@ const HomeScreen = () => {
 
         <Action onPress={() => navigation.navigate("Login")}>Login</Action>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -50,6 +51,7 @@ const styles = ScaledSheet.create({
     alignItems: "center",
     height: "268@s",
     width: "343@s",
+    marginTop: StatusBar.currentHeight + 35,
   },
   img: {
     height: "268@s",

@@ -4,18 +4,14 @@ import { Feather, AntDesign } from "@expo/vector-icons";
 import Transfer from "../../components/Transfer";
 
 const name = [
-  { name: "dave" },
-  { name: "richard" },
-  { name: "kim" },
-  { name: "sam" },
-  { name: "desmond" },
-  { name: "ebi" },
-  { name: "preye" },
-  { name: "dan" },
+  { name: "dave", id: 1 },
+  { name: "richard", id: 2 },
+  { name: "kim", id: 3 },
+  { name: "sam", id: 4 },
 ];
 
 const TransferSection = ({ item }) => {
-  const renderItem = ({ item }) => <Transfer name={item.name} id={item.name} />;
+  const renderItem = ({ item }) => <Transfer name={item.name} id={item.id} />;
   return (
     <View
       style={{

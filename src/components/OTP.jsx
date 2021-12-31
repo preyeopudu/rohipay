@@ -26,7 +26,7 @@ const OTP = (props) => {
       >
         <View style={{ alignItems: "center", width: "100%", flex: 1 }}>
           <View style={styles.textContainer}>
-            <Text style={styles.heading}>Forgot your MPIN?</Text>
+            <Text style={styles.heading}>Forgot your PIN?</Text>
             <Text style={styles.subheading}>
               Please enter the OTP sent to your mobile number.IN.
             </Text>
