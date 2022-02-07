@@ -7,21 +7,37 @@ import {
   Image,
   TouchableWithoutFeedback,
   ScrollView,
+  Alert,
 } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import Action from "../../../components/Action";
 import { useNavigation } from "@react-navigation/native";
 import Navheader from "../../../components/NavHeader";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Ionicons } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
-
-const PersonalDetails = (props) => {
+import { CREATEMERCHANT } from "../../../api/account-api";
+const PersonalDetails = ({ route }) => {
   const { navigate } = useNavigation();
-  const [show, setShow] = useState(false);
-  const [language, setLanguage] = useState();
-  const [currency, setCurrency] = useState();
-  const [source, setSource] = useState();
+  const [gender, setGender] = useState("");
+  const [country, setCountry] = useState("");
+  const [email, setEmail] = useState(route.params.email);
+  const [password, setPassword] = useState(route.params.password);
+  const [username, setUsername] = useState(route.params.username);
+
+  const handleSubmit = async () => {
+    if (gender == "" || country === "") {
+      Alert.alert("Error!!!", "Kindly complete your details");
+    } else {
+      navigate("NextDetails", {
+        email: email,
+        password: password,
+        username: username,
+        country: country,
+        gender: gender,
+        type: "Personal",
+      });
+    }
+  };
+
   return (
     <View
       style={{
@@ -46,112 +62,28 @@ const PersonalDetails = (props) => {
           </View>
 
           <View style={styles.headingContainer}>
-            <Text style={styles.heading}>Just a few more details...</Text>
+            <Text style={styles.heading}>
+              Personal information of signatory
+            </Text>
           </View>
 
           <ScrollView
             style={styles.scrollContainer}
             showsVerticalScrollIndicator={false}
           >
-            <View style={styles.pinContainer}>
-              <View
-                style={[
-                  styles.inputContainer,
-                  { flex: 1, marginHorizontal: 5 },
-                ]}
-              >
-                <TextInput placeholder="First name" style={styles.input} />
-              </View>
-              <View
-                style={[
-                  styles.inputContainer,
-                  { flex: 1, marginHorizontal: 5 },
-                ]}
-              >
-                <TextInput
-                  placeholder="Last name"
-                  keyboardType="numeric"
-                  style={styles.input}
-                />
-              </View>
-            </View>
-            <View style={styles.inputContainer}>
-              <TextInput
-                placeholder="Birth date"
-                style={styles.input}
-                secureTextEntry={show}
-              />
-
-              <View style={styles.inputIcon}>
-                <TouchableOpacity>
-                  <Ionicons
-                    name="calendar-outline"
-                    size={25}
-                    color="#7A869A"
-                    activeOpacity={0.5}
-                    onPress={() => SetShow(!show)}
-                  />
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            <View style={styles.pinContainer}>
-              <View style={[{ flex: 1 }, styles.pin]}>
-                <Picker
-                  selectedValue={language}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setLanguage(itemValue)
-                  }
-                >
-                  <Picker.Item label="Language" enabled={false} />
-                  <Picker.Item label="english" value="english" />
-                  <Picker.Item label="french" value="french" />
-                </Picker>
-              </View>
-              <View style={[{ flex: 1 }, styles.pin]}>
-                <Picker
-                  selectedValue={currency}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setCurrency(itemValue)
-                  }
-                >
-                  <Picker.Item label="Currency" enabled={false} />
-                  <Picker.Item label="dollar" value="dollar" />
-                  <Picker.Item label="naira" value="naira" />
-                </Picker>
-              </View>
-            </View>
             <View style={[{ flex: 1, marginTop: 20 }, styles.pin]}>
               <Picker
-                selectedValue={source}
-                onValueChange={(itemValue, itemIndex) => setSource(itemValue)}
+                selectedValue={gender}
+                onValueChange={(itemValue, itemIndex) => setGender(itemValue)}
+                style={{ marginHorizontal: 10 }}
               >
-                <Picker.Item label="Source of funds / wealth" enabled={false} />
-                <Picker.Item label="english" value="english" />
-                <Picker.Item label="french" value="french" />
+                <Picker.Item label="Gender" enabled={false} />
+                <Picker.Item label="Male" value="Male" />
+                <Picker.Item label="Female" value="Female" />
+                <Picker.Item label="Rather not say" value="Rather not say" />
               </Picker>
             </View>
-            <View
-              style={[{ flex: 1, marginHorizontal: 5, marginTop: 20 }]}
-            ></View>
-            <View style={styles.pinContainer}>
-              <View
-                style={[
-                  styles.inputContainer,
-                  { flex: 1, marginHorizontal: 5 },
-                ]}
-              >
-                <TextInput placeholder="Street" style={styles.input} />
-              </View>
-              <View
-                style={[
-                  styles.inputContainer,
-                  { flex: 1, marginHorizontal: 5 },
-                ]}
-              >
-                <TextInput placeholder="Building" style={styles.input} />
-              </View>
-            </View>
+
             <View style={styles.pinContainer}>
               <View
                 style={[
@@ -160,27 +92,12 @@ const PersonalDetails = (props) => {
                 ]}
               >
                 <TextInput
-                  placeholder="Region (optional)"
+                  placeholder="Nationality"
                   style={styles.input}
+                  onChangeText={(val) => {
+                    setCountry(val);
+                  }}
                 />
-              </View>
-              <View
-                style={[
-                  styles.inputContainer,
-                  { flex: 1, marginHorizontal: 5 },
-                ]}
-              >
-                <TextInput placeholder="Town/City" style={styles.input} />
-              </View>
-            </View>
-            <View style={styles.pinContainer}>
-              <View
-                style={[
-                  styles.inputContainer,
-                  { flex: 1, marginHorizontal: 5 },
-                ]}
-              >
-                <TextInput placeholder="Postal code" style={styles.input} />
               </View>
             </View>
           </ScrollView>
@@ -189,10 +106,10 @@ const PersonalDetails = (props) => {
             <Action
               fill={true}
               onPress={() => {
-                navigate("SuccessPersonal");
+                handleSubmit();
               }}
             >
-              Finish!
+              Next
             </Action>
           </View>
         </View>
@@ -219,7 +136,7 @@ const styles = ScaledSheet.create({
   heading: {
     fontFamily: "Inter",
     fontWeight: "normal",
-    fontSize: "19@s",
+    fontSize: "15@s",
     color: "#42526E",
     textAlign: "left",
     alignItems: "flex-start",

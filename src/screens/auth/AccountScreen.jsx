@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Keyboard, Text, TouchableWithoutFeedback } from "react-native";
 import { ScaledSheet } from "react-native-size-matters";
 import { useNavigation } from "@react-navigation/native";
 import Navheader from "../../components/NavHeader";
 import AccountButton from "../../components/AccountButton";
 
-const AccountScreen = () => {
+const AccountScreen = ({ route }) => {
+  const [email, setEmail] = useState(route.params.email);
+  const [password, setPassword] = useState(route.params.password);
+  const [username, setUsername] = useState(route.params.username);
   const { navigate } = useNavigation();
   return (
     <View
@@ -34,19 +37,31 @@ const AccountScreen = () => {
             heading="Personal"
             subheading="Ideal for individual users"
             onPress={() => {
-              navigate("PersonalSignup");
+              navigate("personaldetail", {
+                email: email,
+                password: password,
+                username: username,
+              });
             }}
           />
           <AccountButton
             onPress={() => {
-              navigate("BuisnessSignup");
+              navigate("businessdetail", {
+                email: email,
+                password: password,
+                username: username,
+              });
             }}
             heading="Business"
             subheading="Ideal for all types or business to send and receive money on your account"
           />
           <AccountButton
             onPress={() => {
-              navigate("MerchantSignup");
+              navigate("merchantdetail", {
+                email: email,
+                password: password,
+                username: username,
+              });
             }}
             heading="Merchant"
             subheading="Ideal for small. medium & large business"

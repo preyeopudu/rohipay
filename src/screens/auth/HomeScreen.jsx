@@ -33,7 +33,7 @@ const HomeScreen = () => {
       </View>
       <View style={styles.buttonContainer}>
         <Action
-          onPress={() => navigation.navigate("Account")}
+          onPress={() => navigation.navigate("Register")}
           fill={true}
           icon={<AntDesign name="arrowright" size={24} color="white" />}
         >

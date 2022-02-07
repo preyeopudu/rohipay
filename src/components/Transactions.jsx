@@ -8,6 +8,9 @@ const Transaction = (props) => {
         backgroundColor: "#fff",
         marginHorizontal: 10,
         marginVertical: 5,
+        marginVertical: 10,
+        elevation: 1,
+        paddingHorizontal: 10,
       }}
     >
       <View

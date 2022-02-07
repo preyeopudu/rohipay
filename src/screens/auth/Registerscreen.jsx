@@ -14,85 +14,42 @@ import { useNavigation } from "@react-navigation/native";
 import Navheader from "../../components/NavHeader";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
-import { SIGNIN } from "../../api/auth-api";
-import { Loading } from "../../components/Loading";
+import { LogIn } from "../../store/actions/index";
 import { useState } from "react";
-import {
-  Token,
-  GetAccount,
-  SetMerchant,
-  SetPersonal,
-  LogIn,
-} from "../../store/actions/index";
-import {
-  GET_ALL_ACCOUNTS_BY_MERCHANT_ID,
-  GET_CUSTOMERS_BY_DTO_EMAIL,
-  GET_CUSTOMERS_BY_DTO_ID,
-  GET_DETAILS_DTO_BY_MERCHANT_EMAIL,
-} from "../../api/account-api";
+import { GETTOTP } from "../../api/auth-api";
+import { Loading } from "../../components/Loading";
 
-const LoginScreen = () => {
+const RegisterScreen = () => {
   const { navigate } = useNavigation();
-  const dispatch = useDispatch();
-  const [loading, Setloading] = useState(false);
   const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const handleLogin = async () => {
-    Setloading(true);
-    if (email == "" || password == "") {
-      Setloading(false);
-      Alert.alert("Login error", "You left a field empty");
+  const [confirm, setConfirm] = useState("");
+  const [loading, setLoading] = useState(false);
+  const handleNext = async () => {
+    if (email === "" || password === "" || confirm === "" || username == "") {
+      Alert.alert("Signup error!!", "You left a field empty");
     } else {
-      const SignIn = await SIGNIN({ username: email, password: password });
-      const body = { id: email };
-      if (SignIn.err) {
-        if (SignIn.err == "Request failed with status code 403") {
-          Alert.alert("Unauthorized !!!", "Invalid details");
-        } else {
-          Alert.alert("Error Occurred", SignIn.err);
-        }
-
-        Setloading(false);
+      if (password != confirm) {
+        Alert.alert("Signup error!!", "Passwords do not match");
       } else {
-        dispatch(Token(SignIn.headers.authorization));
-        const token = SignIn.headers.authorization;
-        const GetAllCustomersByEmail = await GET_CUSTOMERS_BY_DTO_EMAIL(
-          body,
-          token
-        );
-        if (GetAllCustomersByEmail.data) {
-          dispatch(SetPersonal(GetAllCustomersByEmail.data));
-          if ((GetAllCustomersByEmail.data.status = "Active")) {
-            const GetAllCustomersByID = await GET_CUSTOMERS_BY_DTO_ID({
-              id: GetAllCustomersByEmail.data.customerID,
-            });
-            console.log(GetAllCustomersByID);
-            dispatch(GetAccount(GetAllCustomersByID.data));
-          }
-        }
-
-        const GetDetailsDTOByMerchantEmail =
-          await GET_DETAILS_DTO_BY_MERCHANT_EMAIL(body, token);
-        console.log(GetDetailsDTOByMerchantEmail);
-        if (GetDetailsDTOByMerchantEmail.data) {
-          dispatch(SetMerchant(GetDetailsDTOByMerchantEmail.data));
-          if (GetDetailsDTOByMerchantEmail.data == "Active") {
-            const GetMerchant = GET_ALL_ACCOUNTS_BY_MERCHANT_ID(
-              GetDetailsDTOByMerchantEmail.data
-            );
-            dispatch(GetAccount(GetMerchant.data));
-          }
-        }
-
-        dispatch(LogIn());
-        Setloading(false);
+        setLoading(true);
+        const GetOtp = await GETTOTP({ email });
+        console.log(GetOtp);
+        setLoading(false);
+        navigate("OTP", {
+          email: email,
+          password: password,
+          username: username,
+        });
       }
     }
   };
+
   if (loading) {
     return <Loading />;
   }
+
   return (
     <View
       style={{
@@ -118,7 +75,7 @@ const LoginScreen = () => {
 
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Username"
+              placeholder="Email address"
               style={styles.input}
               onChangeText={(val) => setEmail(val)}
             />
@@ -126,31 +83,33 @@ const LoginScreen = () => {
 
           <View style={styles.inputContainer}>
             <TextInput
-              placeholder="Password"
+              placeholder="username"
+              style={styles.input}
+              onChangeText={(val) => setUsername(val)}
+            />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Enter Password"
               style={styles.input}
               secureTextEntry
               onChangeText={(val) => setPassword(val)}
             />
           </View>
 
-          <View style={styles.forgotContainer}>
-            <TouchableOpacity
-              onPress={() => {
-                navigate("Forgot");
-              }}
-            >
-              <Text>Forgot your password?</Text>
-            </TouchableOpacity>
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Confirm Password"
+              style={styles.input}
+              secureTextEntry
+              onChangeText={(val) => setConfirm(val)}
+            />
           </View>
 
           <View style={styles.bottomContainer}>
-            <Action
-              fill={true}
-              onPress={() => {
-                handleLogin();
-              }}
-            >
-              Log in
+            <Action fill={true} onPress={handleNext}>
+              Next
             </Action>
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
               <Text
@@ -160,12 +119,12 @@ const LoginScreen = () => {
                   color: "#42526E",
                 }}
               >
-                Do not have account?
+                have account?
               </Text>
               <View>
                 <TouchableOpacity>
                   <Text style={{ fontSize: scale(12), color: "#42526E" }}>
-                    Sign Up
+                    Sign In
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -231,4 +190,4 @@ const styles = ScaledSheet.create({
   },
 });
 
-export default LoginScreen;
+export default RegisterScreen;

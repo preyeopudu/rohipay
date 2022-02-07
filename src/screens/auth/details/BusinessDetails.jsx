@@ -166,8 +166,9 @@ const BusinesstDetails = (props) => {
                   }
                 >
                   <Picker.Item label="Currency" enabled={false} />
-                  <Picker.Item label="dollar" value="dollar" />
-                  <Picker.Item label="naira" value="naira" />
+                  <Picker.Item label="Dollars" value="Dollars" />
+                  <Picker.Item label="Euro" value="Euro" />
+                  <Picker.Item label="Pound" value="Pound" />
                 </Picker>
               </View>
             </View>

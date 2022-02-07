@@ -4,6 +4,8 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { Button, Menu, Divider, Provider } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
+import SendSection from "../../sections/Transfer/sendSection";
+import ContactSection from "../../sections/Transfer/contactSection";
 
 const TransferScreen = () => {
   const navigation = useNavigation();
@@ -51,16 +53,21 @@ const TransferScreen = () => {
         }}
       >
         <Text style={{ color: "#7A869A", fontSize: 20 }}>Pay from</Text>
-        <View style={{ width: 150 }}>
+        <View style={{ width: "60%", marginHorizontal: 5 }}>
           <Picker
             selectedValue={currency}
+            style={{ fontSize: 24 }}
             onValueChange={(itemValue, itemIndex) => setCurrency(itemValue)}
           >
-            <Picker.Item label="Currency" enabled={false} />
-            <Picker.Item label="dollar" value="dollar" />
-            <Picker.Item label="naira" value="naira" />
+            <Picker.Item label="Account" enabled={false} />
+            <Picker.Item label="Primary a/c 8476" value="dollar" />
           </Picker>
         </View>
+      </View>
+
+      <View>
+        <SendSection />
+        <ContactSection />
       </View>
     </View>
   );

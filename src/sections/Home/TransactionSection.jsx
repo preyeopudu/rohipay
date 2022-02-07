@@ -11,14 +11,14 @@ import Transfer from "../../components/Transfer";
 import Transaction from "../../components/Transactions";
 
 const name = [
-  { name: "dave", time: "22:43", amount: "+$110.000" },
-  { name: "richard", time: "22:43", amount: "+$110.000" },
-  { name: "kim", time: "22:43", amount: "+$110.000" },
-  { name: "sam", time: "22:43", amount: "+$110.000" },
-  { name: "desmond", time: "22:43", amount: "+$110.000" },
-  { name: "ebi", time: "22:43", amount: "+$110.000" },
-  { name: "preye", time: "22:43", amount: "+$110.000" },
-  { name: "dan", time: "22:43", amount: "+$110.000" },
+  { name: "dave", time: "22:43", amount: "+$110.000", id: 1 },
+  { name: "richard", time: "22:43", amount: "+$110.000", id: 2 },
+  { name: "kim", time: "22:43", amount: "+$110.000", id: 3 },
+  { name: "sam", time: "22:43", amount: "+$110.000", id: 4 },
+  { name: "desmond", time: "22:43", amount: "+$110.000", id: 5 },
+  { name: "ebi", time: "22:43", amount: "+$110.000", id: 6 },
+  { name: "preye", time: "22:43", amount: "+$110.000", id: 7 },
+  { name: "dan", time: "22:43", amount: "+$110.000", id: 8 },
 ];
 
 const TransactionSection = () => {
@@ -33,10 +33,11 @@ const TransactionSection = () => {
   return (
     <View
       style={{
-        marginHorizontal: 15,
         borderWidth: 1,
+        paddingHorizontal: 15,
         borderColor: "#DFE1E6",
         paddingVertical: 20,
+        marginHorizontal: 10,
       }}
     >
       <View
@@ -82,7 +83,7 @@ const TransactionSection = () => {
         nestedScrollEnabled
         style={{ marginTop: 20, height: 150 }}
         alwaysBounceVertical={true}
-        showsHorizontalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         data={name}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
