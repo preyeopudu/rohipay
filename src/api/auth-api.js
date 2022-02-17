@@ -17,7 +17,7 @@ export const CREATEACCOUNT = async (body) => {
 
 export const SIGNIN = async (body) => {
   const response = await axios.post(`${Route}/login`, body).catch((err) => {
-    if (err.toJSON().message == "etwork error") {
+    if (err.toJSON().message == "Network error") {
       return { err: "Unable to connect" };
     } else {
       return { err: err.toJSON().message };

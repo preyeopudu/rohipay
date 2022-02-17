@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import { View, Text, StatusBar, TouchableOpacity } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  StatusBar,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/core";
-import { Button, Menu, Divider, Provider } from "react-native-paper";
 import { Picker } from "@react-native-picker/picker";
 import SendSection from "../../sections/Transfer/sendSection";
 import ContactSection from "../../sections/Transfer/contactSection";
@@ -10,6 +15,7 @@ import ContactSection from "../../sections/Transfer/contactSection";
 const TransferScreen = () => {
   const navigation = useNavigation();
   const [currency, setCurrency] = useState();
+
   return (
     <View
       style={{

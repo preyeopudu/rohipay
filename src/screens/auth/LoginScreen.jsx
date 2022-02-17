@@ -39,56 +39,57 @@ const LoginScreen = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    Setloading(true);
-    if (email == "" || password == "") {
-      Setloading(false);
-      Alert.alert("Login error", "You left a field empty");
-    } else {
-      const SignIn = await SIGNIN({ username: email, password: password });
-      const body = { id: email };
-      if (SignIn.err) {
-        if (SignIn.err == "Request failed with status code 403") {
-          Alert.alert("Unauthorized !!!", "Invalid details");
-        } else {
-          Alert.alert("Error Occurred", SignIn.err);
-        }
+    dispatch(LogIn());
+    // Setloading(true);
+    // if (email == "" || password == "") {
+    //   Setloading(false);
+    //   Alert.alert("Login error", "You left a field empty");
+    // } else {
+    //   const SignIn = await SIGNIN({ username: email, password: password });
+    //   const body = { id: email };
+    //   if (SignIn.err) {
+    //     if (SignIn.err == "Request failed with status code 403") {
+    //       Alert.alert("Unauthorized !!!", "Invalid details");
+    //     } else {
+    //       Alert.alert("Error Occurred", SignIn.err);
+    //     }
 
-        Setloading(false);
-      } else {
-        dispatch(Token(SignIn.headers.authorization));
-        const token = SignIn.headers.authorization;
-        const GetAllCustomersByEmail = await GET_CUSTOMERS_BY_DTO_EMAIL(
-          body,
-          token
-        );
-        if (GetAllCustomersByEmail.data) {
-          dispatch(SetPersonal(GetAllCustomersByEmail.data));
-          if ((GetAllCustomersByEmail.data.status = "Active")) {
-            const GetAllCustomersByID = await GET_CUSTOMERS_BY_DTO_ID({
-              id: GetAllCustomersByEmail.data.customerID,
-            });
-            console.log(GetAllCustomersByID);
-            dispatch(GetAccount(GetAllCustomersByID.data));
-          }
-        }
+    //     Setloading(false);
+    //   } else {
+    //     dispatch(Token(SignIn.headers.authorization));
+    //     const token = SignIn.headers.authorization;
+    //     const GetAllCustomersByEmail = await GET_CUSTOMERS_BY_DTO_EMAIL(
+    //       body,
+    //       token
+    //     );
+    //     if (GetAllCustomersByEmail.data) {
+    //       dispatch(SetPersonal(GetAllCustomersByEmail.data));
+    //       if ((GetAllCustomersByEmail.data.status = "Active")) {
+    //         const GetAllCustomersByID = await GET_CUSTOMERS_BY_DTO_ID({
+    //           id: GetAllCustomersByEmail.data.customerID,
+    //         });
+    //         console.log(GetAllCustomersByID);
+    //         dispatch(GetAccount(GetAllCustomersByID.data));
+    //       }
+    //     }
 
-        const GetDetailsDTOByMerchantEmail =
-          await GET_DETAILS_DTO_BY_MERCHANT_EMAIL(body, token);
-        console.log(GetDetailsDTOByMerchantEmail);
-        if (GetDetailsDTOByMerchantEmail.data) {
-          dispatch(SetMerchant(GetDetailsDTOByMerchantEmail.data));
-          if (GetDetailsDTOByMerchantEmail.data == "Active") {
-            const GetMerchant = GET_ALL_ACCOUNTS_BY_MERCHANT_ID(
-              GetDetailsDTOByMerchantEmail.data
-            );
-            dispatch(GetAccount(GetMerchant.data));
-          }
-        }
+    //     const GetDetailsDTOByMerchantEmail =
+    //       await GET_DETAILS_DTO_BY_MERCHANT_EMAIL(body, token);
+    //     console.log(GetDetailsDTOByMerchantEmail);
+    //     if (GetDetailsDTOByMerchantEmail.data) {
+    //       dispatch(SetMerchant(GetDetailsDTOByMerchantEmail.data));
+    //       if (GetDetailsDTOByMerchantEmail.data == "Active") {
+    //         const GetMerchant = GET_ALL_ACCOUNTS_BY_MERCHANT_ID(
+    //           GetDetailsDTOByMerchantEmail.data
+    //         );
+    //         dispatch(GetAccount(GetMerchant.data));
+    //       }
+    //     }
 
-        dispatch(LogIn());
-        Setloading(false);
-      }
-    }
+    //     dispatch(LogIn());
+    //     Setloading(false);
+    //   }
+    // }
   };
   if (loading) {
     return <Loading />;

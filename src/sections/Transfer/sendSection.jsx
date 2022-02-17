@@ -38,14 +38,17 @@ const SendSection = () => {
             marginVertical: 20,
           }}
         >
-          <TouchableOpacity style={styles.navcontainer}>
+          <TouchableOpacity
+            style={styles.navcontainer}
+            onPress={() => navigation.navigate("scan")}
+          >
             <AntDesign name="qrcode" size={27} color="#2C4389" />
             <Text style={styles.navtext}>Scan & Pay</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={styles.navcontainer}
-            onPress={() => navigation.navigate("transfer")}
+            onPress={() => navigation.navigate("email")}
           >
             <MaterialCommunityIcons
               name="email-send"
@@ -55,18 +58,24 @@ const SendSection = () => {
             <Text style={styles.navtext}>To Email</Text>
           </TouchableOpacity>
 
-          <View style={styles.navcontainer}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("phone")}
+            style={styles.navcontainer}
+          >
             <MaterialIcons name="send-to-mobile" size={24} color="#2C4389" />
             <Text style={styles.navtext}>To Mobile</Text>
-          </View>
-          <View style={styles.navcontainer}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.navcontainer}
+            onPress={() => navigation.navigate("bank")}
+          >
             <MaterialCommunityIcons
               name="bank-outline"
               size={27}
               color="#2C4389"
             />
             <Text style={styles.navtext}>To Bank</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { MaterialCommunityIcons } from "react-native-vector-icons";
 import { useNavigation } from "@react-navigation/core";
 import { AntDesign } from "@expo/vector-icons";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const Navheader = (props) => {
   const navigation = useNavigation();
@@ -16,34 +17,17 @@ const Navheader = (props) => {
           alignSelf: "center",
           flexDirection: "row",
           marginTop: 60,
-          justifyContent: "space-between",
           alignItems: "center",
         }}
       >
-        <View>
-          <AntDesign
-            name="arrowleft"
-            size={30}
-            color="#42526E"
-            onPress={() => navigation.goBack()}
-          />
-        </View>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={30} color="#42526E" />
+        </TouchableOpacity>
 
-        <View>
-          <Text style={{ fontSize: 22, fontFamily: "Inter", color: "#4D4351" }}>
+        <View style={{ marginHorizontal: 15 }}>
+          <Text style={{ fontSize: 19, fontFamily: "Inter", color: "#4D4351" }}>
             {props.title}
           </Text>
-        </View>
-
-        <View>
-          {props.next ? (
-            <Icon
-              size={35}
-              color="#4D4351"
-              name="ios-chevron-forward"
-              onPress={() => navigation.navigate(props.next)}
-            />
-          ) : null}
         </View>
       </View>
     </View>
